@@ -1,3 +1,5 @@
+using MassTransit;
+
 namespace FrontEndHomePage
 {
     public class Program
@@ -8,8 +10,17 @@ namespace FrontEndHomePage
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+            builder.Services.AddMassTransit(configurator =>
+            {
 
+                configurator.UsingRabbitMq((contex, _configure) =>
+                {
+                    _configure.Host(builder.Configuration["RabbitMq"]);
+
+                });
+            });
             var app = builder.Build();
+          
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())

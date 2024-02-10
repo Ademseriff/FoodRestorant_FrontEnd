@@ -1,5 +1,8 @@
 ﻿using FrontEndHomePage.Models;
+using MassTransit;
 using Microsoft.AspNetCore.Mvc;
+using Shared.Enums;
+using Shared.Events;
 using System.Diagnostics;
 
 namespace FrontEndHomePage.Controllers
@@ -7,10 +10,12 @@ namespace FrontEndHomePage.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly IPublishEndpoint publishEndpoint;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, IPublishEndpoint publishEndpoint)
         {
             _logger = logger;
+            this.publishEndpoint = publishEndpoint;
         }
 
         public IActionResult Index()
@@ -30,18 +35,29 @@ namespace FrontEndHomePage.Controllers
         {
             return View();
         }
-     
+
         public IActionResult Sepet(int id)
         {
-            
+
             return View();
         }
 
-        public IActionResult SepetProcess(int id)
+        public async Task<IActionResult> SepetProcess(int id)
         {
-            int Catagory,Price;
-            Catagory = id % 10;
-            Price = id / 10;
+            int Catagory0, Price0,Product0;
+            Catagory0 = id % 10;
+            id = id / 10;
+            Product0 = id % 10;
+            id = id / 10;
+            Price0 = id;
+          
+            BasketItemAddedEvent basketItemAddedEvent = new BasketItemAddedEvent()
+            {
+                Category = (Category)Catagory0,
+                Price = Price0.ToString(),
+                Product = Product0.ToString()
+            };
+            await publishEndpoint.Publish(basketItemAddedEvent);
 
             return RedirectToAction(actionName:"Menu",controllerName:"Home");
         }
