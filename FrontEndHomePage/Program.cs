@@ -1,4 +1,7 @@
+using FrontEndHomePage.Consumers;
 using MassTransit;
+using Microsoft.EntityFrameworkCore;
+using Shared;
 
 namespace FrontEndHomePage
 {
@@ -10,17 +13,24 @@ namespace FrontEndHomePage
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+
+           
+
             builder.Services.AddMassTransit(configurator =>
             {
-
+                configurator.AddConsumer<BasketViewResponseEventConsumer>();
                 configurator.UsingRabbitMq((contex, _configure) =>
                 {
                     _configure.Host(builder.Configuration["RabbitMq"]);
 
+
+                    _configure.ReceiveEndpoint(RabbitMQSettings.Basket_ViewResponseEventQueue, e => e.ConfigureConsumer<BasketViewResponseEventConsumer>(contex));
                 });
             });
             var app = builder.Build();
-          
+
+
+
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())

@@ -1,52 +1,124 @@
-﻿<!-- ======= Book A Table Section ======= -->
-<main id="main">
-<section id="book-a-table" class="book-a-table">
-    <div class="container">
+﻿@using FrontEndHomePage.ViewModel
+@using Shared.Events
+@using Shared.Message
 
-        <div class="section-title">
-            <h2>Book a <span>Table</span></h2>
-            <p>Ut possimus qui ut temporibus culpa velit eveniet modi omnis est adipisci expedita at voluptas atque vitae autem.</p>
-        </div>
+@{
+    Layout = null;
+  
+   
+};
+@model List<BasketVM>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.22.2/dist/bootstrap-table.min.css">
+    <title>Web Sitesi</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
 
-        <form action="forms/book-a-table.php" method="post" role="form" class="php-email-form">
-            <div class="row">
-                <div class="col-lg-4 col-md-6 form-group">
-                    <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" data-rule="minlen:4" data-msg="Please enter at least 4 chars">
-                    <div class="validate"></div>
-                </div>
-                <div class="col-lg-4 col-md-6 form-group mt-3 mt-md-0">
-                    <input type="email" class="form-control" name="email" id="email" placeholder="Your Email" data-rule="email" data-msg="Please enter a valid email">
-                    <div class="validate"></div>
-                </div>
-                <div class="col-lg-4 col-md-6 form-group mt-3 mt-md-0">
-                    <input type="text" class="form-control" name="phone" id="phone" placeholder="Your Phone" data-rule="minlen:4" data-msg="Please enter at least 4 chars">
-                    <div class="validate"></div>
-                </div>
-                <div class="col-lg-4 col-md-6 form-group mt-3">
-                    <input type="text" name="date" class="form-control" id="date" placeholder="Date" data-rule="minlen:4" data-msg="Please enter at least 4 chars">
-                    <div class="validate"></div>
-                </div>
-                <div class="col-lg-4 col-md-6 form-group mt-3">
-                    <input type="text" class="form-control" name="time" id="time" placeholder="Time" data-rule="minlen:4" data-msg="Please enter at least 4 chars">
-                    <div class="validate"></div>
-                </div>
-                <div class="col-lg-4 col-md-6 form-group mt-3">
-                    <input type="number" class="form-control" name="people" id="people" placeholder="# of people" data-rule="minlen:1" data-msg="Please enter at least 1 chars">
-                    <div class="validate"></div>
-                </div>
-            </div>
-            <div class="form-group mt-3">
-                <textarea class="form-control" name="message" rows="5" placeholder="Message"></textarea>
-                <div class="validate"></div>
-            </div>
-            <div class="mb-3">
-                <div class="loading">Loading</div>
-                <div class="error-message"></div>
-                <div class="sent-message">Your booking request was sent. We will call back or send an Email to confirm your reservation. Thank you!</div>
-            </div>
-            <div class="text-center"><button type="submit">Send Message</button></div>
-        </form>
+        header {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 10px;
+        }
 
-    </div>
-</section><!-- End Book A Table Section -->
-</main>
+        nav {
+            background-color: #eee;
+            padding: 10px;
+        }
+
+            nav a {
+                margin: 0 10px;
+                text-decoration: none;
+                color: #333;
+            }
+
+        section {
+            padding: 20px;
+        }
+
+        footer {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 10px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>SEPET</h1>
+    </header>
+
+    <nav>
+        <a asp-action="Index" asp-controller="Home">Home</a>
+        
+    </nav>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Porsiyon</th>
+                <th>Fiyat</th>
+                <th>Kategori</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>1 Porsiyon</td>
+                    <td>@item.Price $</td>
+
+                    <td>@item.Category</td>
+
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+            @{
+                int total = 0;
+                foreach (var item in Model)
+                {
+                    total = int.Parse(item.TotalPrice);
+                }
+            }
+            <tr>
+                <td>Toplam Fiyat</td>
+                <td style="color:red">@total $</td>
+            </tr>
+            <tr>
+                <td>
+                    <a asp-action="Index" asp-controller="Home">
+                        <button type="button">Tüm Siparişleri Onayla</button>
+                    </a>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+ 
+
+
+    <footer>
+        <p>Dur Restorant Sepetim</p>
+    </footer>
+
+</body>
+</html>
+
+
+

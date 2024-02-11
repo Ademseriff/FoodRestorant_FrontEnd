@@ -1,8 +1,12 @@
-﻿using FrontEndHomePage.Models;
+﻿using FrontEndHomePage.Consumers;
+using FrontEndHomePage.Models;
+using FrontEndHomePage.ViewModel;
 using MassTransit;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Storage;
 using Shared.Enums;
 using Shared.Events;
+using Shared.Message;
 using System.Diagnostics;
 
 namespace FrontEndHomePage.Controllers
@@ -11,11 +15,13 @@ namespace FrontEndHomePage.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IPublishEndpoint publishEndpoint;
+       
 
         public HomeController(ILogger<HomeController> logger, IPublishEndpoint publishEndpoint)
         {
             _logger = logger;
             this.publishEndpoint = publishEndpoint;
+         
         }
 
         public IActionResult Index()
@@ -36,10 +42,48 @@ namespace FrontEndHomePage.Controllers
             return View();
         }
 
-        public IActionResult Sepet(int id)
+        public async Task<IActionResult> Sepet()
         {
 
-            return View();
+          
+            BasketViewRepuestEvent repuestEvent = new BasketViewRepuestEvent();
+            await publishEndpoint.Publish(repuestEvent);
+            await Task.Delay(TimeSpan.FromSeconds(8));
+            int toplam = 0;
+            List<BasketVM> basketVM  = new List<BasketVM>();
+            //sepet boş mu dolu mu kontorollü
+            if(BasketViewResponseEventConsumer.OrderItemMessega.OrderItems != null)
+            {
+                foreach (var vm in BasketViewResponseEventConsumer.OrderItemMessega.OrderItems)
+                {
+                    basketVM.Add(new BasketVM
+                    {
+                        Id = vm.Id,
+                        Price = vm.Price,
+                        Product = vm.Product,
+                        Category = vm.Category,
+                    });
+                    toplam = toplam + Int32.Parse(vm.Price);
+                }
+                foreach (var vm in basketVM)
+                {
+                    vm.TotalPrice = toplam.ToString();
+                }
+            }
+            else
+            {
+                basketVM.Add(new BasketVM
+                {
+                    Id = 0,
+                    TotalPrice="0",
+                    Category = 0,
+                    Price = "0",
+                    Product ="0"
+                });
+            }
+        
+
+            return View(basketVM);
         }
 
         public async Task<IActionResult> SepetProcess(int id)
