@@ -62,6 +62,8 @@ namespace FrontEndHomePage.Controllers
                         Price = vm.Price,
                         Product = vm.Product,
                         Category = vm.Category,
+                        Adress ="belirtilmedi",
+                        PhoneNumber = "belirtilmedi"
                     });
                     toplam = toplam + Int32.Parse(vm.Price);
                 }
@@ -78,7 +80,9 @@ namespace FrontEndHomePage.Controllers
                     TotalPrice="0",
                     Category = 0,
                     Price = "0",
-                    Product ="0"
+                    Product ="0",
+                    Adress = "belirtilmedi",
+                    PhoneNumber = "belirtilmedi"
                 });
             }
         
@@ -86,6 +90,54 @@ namespace FrontEndHomePage.Controllers
             return View(basketVM);
         }
 
+
+        [HttpPost]
+        public async Task<IActionResult> Sepet(List<BasketVM> basketVM ,string PhoneNumber, string Adress,string EMail)
+        {
+           
+            foreach (var i  in basketVM)
+            {
+                i.Adress = Adress;
+                i.PhoneNumber = PhoneNumber;
+                i.EMail = EMail;
+            }
+            //sipariş oluşturma işlemleri ve ardından kuyruga publis işlemi yapılacak.
+            //sipariş id random vericem o yüzden burda random bir sayı oluşturuyprum.
+            Random random = new Random();
+            int rastgeleSayi = random.Next(1, 9999);
+
+            OrderCreatedEvent orderCreatedEvent = new OrderCreatedEvent();
+            orderCreatedEvent.Id = rastgeleSayi;
+            orderCreatedEvent.State = Shared.Enums.State.pending;
+
+            orderCreatedEvent.OrderCreatedEventMessage = basketVM.Select(oi => new OrderCreatedEventMessage()
+            {
+                Category = oi.Category,
+                Product = oi.Product,
+                TotalPrice = oi.TotalPrice,
+                Email = oi.EMail
+            }).ToList();
+            await publishEndpoint.Publish(orderCreatedEvent);
+
+
+            //sepet kısmını temizleme işlemleri.
+            BasketDeleteRequestEvent basketDeleteRequestEvent = new BasketDeleteRequestEvent();
+            await publishEndpoint.Publish(basketDeleteRequestEvent);
+
+            return RedirectToAction(actionName: "Index", controllerName: "Home");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Clear()
+        {
+
+
+            //sepet kısmını temizleme işlemleri.
+            BasketDeleteRequestEvent basketDeleteRequestEvent = new BasketDeleteRequestEvent();
+            await publishEndpoint.Publish(basketDeleteRequestEvent);
+
+            return RedirectToAction(actionName: "Index", controllerName: "Home");
+        }
         public async Task<IActionResult> SepetProcess(int id)
         {
             int Catagory0, Price0,Product0;

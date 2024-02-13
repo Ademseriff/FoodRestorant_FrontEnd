@@ -4,6 +4,7 @@ namespace FrontEndHomePage.ViewModel
 {
     public class BasketVM
     {
+
         public int   Id { get; set; }
 
         public Category Category { get; set; }
@@ -13,5 +14,11 @@ namespace FrontEndHomePage.ViewModel
         public string Product { get; set; }
 
         public string TotalPrice { get; set; }
+
+        public string PhoneNumber { get; set; }
+
+        public string  Adress { get; set; }
+
+        public string EMail { get; set; }
     }
 }
