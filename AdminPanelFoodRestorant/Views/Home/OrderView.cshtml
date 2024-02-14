@@ -1,0 +1,86 @@
+﻿@using AdminPanelFoodRestorant.ViewModel
+@model List<OrdersContentsVM>
+
+
+
+<style>
+    .custom-margin {
+        text-align: center
+    }
+</style>
+
+<div class="container mt-4">
+    <h2 class="container custom-margin"> Şiparişler </h2>
+    <br />
+    <br />
+    <table class="table table-dark">
+        <thead>
+            <tr>
+
+                <th scope="auto">Ürün</th>
+                <th></th>
+
+                <th scope="auto">Category</th>
+
+
+                <th></th>
+
+                <th scope="auto">Toplam Fiyat</th>
+                <th></th>
+                <th scope="auto">Email </th>
+                <th scope="auto">Phone Number</th>
+                <th scope="auto">Adress</th>
+
+                <th scope="auto">Şipariş Id</th>
+                <th scope="auto">Îptal</th>
+                <th scope="auto">Tamamlandı</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var x in Model)
+            {
+                
+                    <tr>
+                        <td>@x.Product
+                        <td>
+                        <td>@x.Category
+                        <td>
+                        
+                          <td>@x.TotalPrice</td>
+                         <td>@x.Email
+                         <td>
+                        <td>@x.PhoneNumber</td>
+                        <td>@x.Adress</td>
+                        <td>@x.OrderId</td>
+                        <td>
+                            <form method="post" asp-action="DeleteBathCeramic" asp-area="Admin" asp-controller="BathCeramic">
+                          @*       <input asp-for="Id" type="hidden" name="Id" value="@x.Id" />
+                                <input asp-for="BarcodeId" type="hidden" name="BarcodeId" value="@x.BarcodeId" />
+                                <input asp-for="CeramicPrice" type="hidden" name="CeramicPrice" value="@x.CeramicPrice" />
+                                <input asp-for="CeramicAmount" type="hidden" name="CeramicAmount" value="@x.CeramicAmount" />
+                                <input asp-for="CeramicName" type="hidden" name="CeramicName" value="@x.CeramicName" />
+                                <input asp-for="CreateTime" type="hidden" name="CreateTime" value="@x.CreateTime" />
+                                <input asp-for="IsDeleted" type="hidden" name="IsDeleted" value="@x.IsDeleted" /> *@
+                                <button type="submit" style="color: black; background-color: red;">İPTAL</button>
+                            </form>
+                        </td>
+                        <td>
+                            <form method="post" asp-action="PasifDeleteBathCeramic" asp-area="Admin" asp-controller="BathCeramic">
+                               @*  <input asp-for="Id" type="hidden" name="Id" value="@x.Id" />
+                                <input asp-for="BarcodeId" type="hidden" name="BarcodeId" value="@x.BarcodeId" />
+                                <input asp-for="CeramicPrice" type="hidden" name="CeramicPrice" value="@x.CeramicPrice" />
+                                <input asp-for="CeramicAmount" type="hidden" name="CeramicAmount" value="@x.CeramicAmount" />
+                                <input asp-for="CeramicName" type="hidden" name="CeramicName" value="@x.CeramicName" />
+                                <input asp-for="CreateTime" type="hidden" name="CreateTime" value="@x.CreateTime" />
+                                <input asp-for="IsDeleted" type="hidden" name="IsDeleted" value="@x.IsDeleted" /> *@
+                                <button type="submit" style="color:black;background-color:forestgreen">TAMAMLANDI</button>
+                            </form>
+                        </td>
+                    </tr>
+                
+
+            }
+
+        </tbody>
+    </table>
+</div>

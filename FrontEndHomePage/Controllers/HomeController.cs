@@ -115,7 +115,9 @@ namespace FrontEndHomePage.Controllers
                 Category = oi.Category,
                 Product = oi.Product,
                 TotalPrice = oi.TotalPrice,
-                Email = oi.EMail
+                Email = oi.EMail,
+                Adress =oi.Adress,
+                PhoneNumber = oi.PhoneNumber,
             }).ToList();
             await publishEndpoint.Publish(orderCreatedEvent);
 

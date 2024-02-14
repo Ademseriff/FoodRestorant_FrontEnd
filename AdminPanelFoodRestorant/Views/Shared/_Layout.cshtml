@@ -87,7 +87,7 @@
 
   
   <div class="app-brand demo ">
-                    <a asp-action="Index" asp-controller="Home" asp-area="Admin" target="_self" class="app-brand-link">
+                    <a asp-action="Index" asp-controller="Home" target="_self" class="app-brand-link">
     
      
       <span class="app-brand-text demo menu-text fw-bold ms-2">Admin Panel</span>
@@ -113,17 +113,17 @@
       </a>
       <ul class="menu-sub">
         <li class="menu-item active">
-          <a asp-action="Index" asp-controller="Home" asp-area ="Admin" target="_self" class="menu-link">
+          <a asp-action="Index" asp-controller="Home"  target="_self" class="menu-link">
             <div data-i18n="CRM">Home Page</div><div class="badge bg-label-primary fs-tiny rounded-pill ms-auto">Ana Sayfa</div>
           </a>
         </li>
         <li class="menu-item">
-          <a asp-action="employee" asp-area="Admin" asp-controller="Home" target="_self"  class="menu-link">
-            <div data-i18n="Analytics">Personeller</div>
+          <a asp-action="OrderView"  asp-controller="Home" target="_self"  class="menu-link">
+            <div data-i18n="Analytics">Siparişleri Görüntüle</div>
           </a>
         </li>
         <li class="menu-item">
-          <a asp-action="employeeAdd" asp-controller="Home" asp-area="Admin"  target="_self" class="menu-link">
+          <a asp-action="employeeAdd" asp-controller="Home"   target="_self" class="menu-link">
             <div data-i18n="eCommerce">Personel Ekle</div><div class="badge bg-label-primary fs-tiny rounded-pill ms-auto">Add Person</div>
           </a>
         </li>
@@ -145,18 +145,18 @@
       </a>
       <ul class="menu-sub">
         <li class="menu-item">
-            <a asp-action="Index" asp-controller="Closet" asp-area="Admin" target="_self" class="menu-link">
+            <a asp-action="Index" asp-controller="Closet"  target="_self" class="menu-link">
            <i class='bx bxs-data'></i>
             <div data-i18n="Account"> Closet Table View</div>
           </a>
         </li>
         <li class="menu-item">
-          <a asp-action="ClosetAdd" asp-controller="Closet" asp-area="Admin" target="_self" class="menu-link">
+          <a asp-action="ClosetAdd" asp-controller="Closet"  target="_self" class="menu-link">
             <div data-i18n="Notifications">Closet Model Add</div>
           </a>
         </li>
         <li class="menu-item">
-             <a asp-action="ClosetUpdate" asp-controller="Closet" asp-area="Admin" class="menu-link">
+             <a asp-action="ClosetUpdate" asp-controller="Closet"  class="menu-link">
             <div data-i18n="Connections">Closet Amount Add</div>
           </a>
         </li>
@@ -169,18 +169,18 @@
       </a>
       <ul class="menu-sub">
         <li class="menu-item">
-          <a asp-area="Admin" asp-action="Index" asp-controller="KitchenCeramic" class="menu-link" target="_self">
+          <a  asp-action="Index" asp-controller="KitchenCeramic" class="menu-link" target="_self">
            <i class='bx bxs-data'></i>
             <div data-i18n="Basic"> Kitcen Ceramic Table View</div>
           </a>
         </li>
         <li class="menu-item">
-           <a asp-area="Admin" asp-action="KitchenCeramicAdd" asp-controller="KitchenCeramic" class="menu-link" target="_self">
+           <a  asp-action="KitchenCeramicAdd" asp-controller="KitchenCeramic" class="menu-link" target="_self">
             <div data-i18n="Basic">Kitchen Ceramic Model Add</div>
           </a>
         </li>
         <li class="menu-item">
-          <a asp-action="KitchenCeramicUpdate" asp-controller="KitchenCeramic" asp-area="Admin" class="menu-link" target="_self">
+          <a asp-action="KitchenCeramicUpdate" asp-controller="KitchenCeramic"  class="menu-link" target="_self">
             <div data-i18n="Basic">Kitchen Ceramic Amount Add</div>
           </a>
         </li>
@@ -193,18 +193,18 @@
       </a>
       <ul class="menu-sub">
         <li class="menu-item">
-          <a asp-action="Index" asp-area="Admin" asp-controller="BathCeramic" class="menu-link">
+          <a asp-action="Index"  asp-controller="BathCeramic" class="menu-link">
           <i class='bx bxs-data'></i>
          <div data-i18n="Error"> Bath Ceramic Table View</div>
           </a>
         </li>
         <li class="menu-item">
-         <a asp-action="BathCeramicAdd" asp-area="Admin" asp-controller="BathCeramic" class="menu-link">
+         <a asp-action="BathCeramicAdd"  asp-controller="BathCeramic" class="menu-link">
             <div data-i18n="Under Maintenance">Bath Ceramic Model Add</div>
           </a>
         </li>
         <li class="menu-item">
-           <a asp-action="BathCeramicUpdate" asp-area="Admin" asp-controller="BathCeramic" class="menu-link">
+           <a asp-action="BathCeramicUpdate"  asp-controller="BathCeramic" class="menu-link">
             
              <div data-i18n="Error"> Bath Ceramic Amount Add</div>
          </a>
@@ -280,7 +280,7 @@
               <li>
                 <a  class="dropdown-item" href="javascript:void(0);">
               
-                 <form method="get" asp-controller="Auth" asp-action="Logout" asp-area="Admin">
+                 <form method="get" asp-controller="Auth" asp-action="Logout" >
                   <i class="bx bx-power-off me-2"></i>
                   <button class="align-middle" type="submit">Çıkış Yap</button>
                   @* <span class="align-middle">Log Out</span> *@
