@@ -1,0 +1,68 @@
+﻿@using AdminPanelFoodRestorant.ViewModel
+@model List<OrdersContentsVM>
+
+
+
+<style>
+    .custom-margin {
+        text-align: center
+    }
+</style>
+<div class="container mt-4">
+
+    <h2 class="container custom-margin" style="color:green">Toplam Kazanılan Para</h2>
+    <h3 class="container custom-margin" style="color:green">@ViewBag.TotalPrice $</h3>
+
+  </div>
+  <br />
+<div class="container mt-4">
+    <h2 class="container custom-margin">Tamamlanmış Şiparişler </h2>
+    <br />
+    <br />
+    <table class="table table-dark">
+        <thead>
+            <tr>
+
+                <th scope="auto">Ürün</th>
+                <th></th>
+
+                <th scope="auto">Category</th>
+
+
+                <th></th>
+
+                <th scope="auto">Toplam Fiyat</th>
+                <th></th>
+                <th scope="auto">Email </th>
+                <th scope="auto">Phone Number</th>
+                <th scope="auto">Adress</th>
+
+                <th scope="auto">Şipariş Id</th>
+             
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var x in Model)
+            {
+
+                <tr>
+                    <td>@x.Product
+                    <td>
+                    <td>@x.Category
+                    <td>
+
+                    <td>@x.TotalPrice $</td>
+                    <td>@x.Email
+                    <td>
+                    <td>@x.PhoneNumber</td>
+                    <td>@x.Adress</td>
+                    <td>@x.OrderId</td>
+                  
+                </tr>
+
+
+            }
+
+        </tbody>
+    </table>
+</div>

@@ -66,6 +66,69 @@ namespace AdminPanelFoodRestorant.Controllers
             return View(ordersContentsVM);
         }
 
+
+        public async Task<IActionResult> OrderComplated(int OrderId)
+        {
+            OrderComplatedEvent orderComplatedEvent = new OrderComplatedEvent();
+
+            orderComplatedEvent.id = OrderId;
+            await publishEndpoint.Publish(orderComplatedEvent);
+            return RedirectToAction(actionName: "OrderView", controllerName: "Home");
+        }
+
+        public async Task<IActionResult> OrderFailed(int OrderId)
+        {
+            OrderFailedEvent orderFailedEvent = new OrderFailedEvent();
+            orderFailedEvent.id = OrderId;
+            await publishEndpoint.Publish(orderFailedEvent);
+            return RedirectToAction(actionName: "OrderView", controllerName: "Home");
+        }
+
+
+        public async Task<IActionResult> OrderViewCompLated()
+        {
+            List<OrdersContentsVM> ordersContentsVM = new List<OrdersContentsVM>();
+            OrderViewCompLatedEvent orderViewCompLatedEvent = new OrderViewCompLatedEvent();
+            await publishEndpoint.Publish(orderViewCompLatedEvent);
+
+            await Task.Delay(6000);
+            int toplam=0, kontrolid = 0;
+            if (OrderViewComplatedEventResponseConsumer.orderViewResponseEvent.orderViewComplatedEventResponseMessages == null)
+            {
+                ordersContentsVM.Add(new OrdersContentsVM()
+                {
+                    Category = (Category)0,
+                    Email = "YOK",
+                    TotalPrice = "YOK",
+                    OrderId = 0,
+                    Product = "YOK"
+                });
+            }
+            else
+            {
+                foreach (var x in OrderViewComplatedEventResponseConsumer.orderViewResponseEvent.orderViewComplatedEventResponseMessages)
+                {
+                    ordersContentsVM.Add(new OrdersContentsVM()
+                    {
+                        Category = x.Category,
+                        Email = x.Email,
+                        OrderId = x.OrderId,
+                        Product = x.Product,
+                        TotalPrice = x.TotalPrice,
+                        Adress = x.Adress,
+                        PhoneNumber = x.PhoneNumber
+                    });
+                    if(kontrolid != x.OrderId)
+                    {
+                        toplam += int.Parse(x.TotalPrice);
+                        kontrolid = x.OrderId;
+                    }
+                }
+            }
+            ViewBag.TotalPrice = toplam;
+            return View(ordersContentsVM);
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
