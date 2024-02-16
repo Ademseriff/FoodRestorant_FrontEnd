@@ -94,7 +94,7 @@ namespace FrontEndHomePage.Controllers
         [HttpPost]
         public async Task<IActionResult> Sepet(List<BasketVM> basketVM ,string PhoneNumber, string Adress,string EMail)
         {
-           
+          
             foreach (var i  in basketVM)
             {
                 i.Adress = Adress;
@@ -109,6 +109,14 @@ namespace FrontEndHomePage.Controllers
             OrderCreatedEvent orderCreatedEvent = new OrderCreatedEvent();
             orderCreatedEvent.Id = rastgeleSayi;
             orderCreatedEvent.State = Shared.Enums.State.pending;
+
+            //mail işlemleri 
+            MailSentEvent mailSentEvent = new MailSentEvent();
+            mailSentEvent.EMail = EMail;
+            mailSentEvent.State = Shared.Enums.State.pending;
+            mailSentEvent.OrderId = rastgeleSayi;
+            await publishEndpoint.Publish(mailSentEvent);
+            //mail işleri bittiş
 
             orderCreatedEvent.OrderCreatedEventMessage = basketVM.Select(oi => new OrderCreatedEventMessage()
             {

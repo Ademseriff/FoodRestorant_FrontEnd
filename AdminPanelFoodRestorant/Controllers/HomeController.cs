@@ -67,18 +67,33 @@ namespace AdminPanelFoodRestorant.Controllers
         }
 
 
-        public async Task<IActionResult> OrderComplated(int OrderId)
+        public async Task<IActionResult> OrderComplated(int OrderId,string Email)
         {
             OrderComplatedEvent orderComplatedEvent = new OrderComplatedEvent();
+            //mail işlemleri
+            MailSentEvent mailSentEvent = new MailSentEvent();
+            mailSentEvent.State = Shared.Enums.State.successful;
+            mailSentEvent.OrderId = OrderId;
+            mailSentEvent.EMail = Email;
+            await publishEndpoint.Publish(mailSentEvent);
+            //--
 
             orderComplatedEvent.id = OrderId;
             await publishEndpoint.Publish(orderComplatedEvent);
             return RedirectToAction(actionName: "OrderView", controllerName: "Home");
         }
 
-        public async Task<IActionResult> OrderFailed(int OrderId)
+        public async Task<IActionResult> OrderFailed(int OrderId,string Email)
         {
             OrderFailedEvent orderFailedEvent = new OrderFailedEvent();
+            //mail işlemleri
+            MailSentEvent mailSentEvent = new MailSentEvent();
+            mailSentEvent.State = Shared.Enums.State.failed;
+            mailSentEvent.OrderId = OrderId;
+            mailSentEvent.EMail = Email;
+            await publishEndpoint.Publish(mailSentEvent);
+            //--
+
             orderFailedEvent.id = OrderId;
             await publishEndpoint.Publish(orderFailedEvent);
             return RedirectToAction(actionName: "OrderView", controllerName: "Home");
