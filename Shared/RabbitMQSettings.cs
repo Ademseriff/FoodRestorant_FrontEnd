@@ -32,5 +32,7 @@ namespace Shared
 
         public const string Mail_SentEventQueue = "mail-sent-event-queue";
 
+        public const string Backup_EventQueue = "backup-event-queue";
+
     }
 }
